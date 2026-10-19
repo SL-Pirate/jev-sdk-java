@@ -1,5 +1,6 @@
 plugins {
     id("java")
+    id("com.vanniktech.maven.publish") version "0.37.0"
 }
 
 group = "dev.isira"
@@ -25,6 +26,36 @@ dependencies {
 // constructor arguments without @JsonProperty on every parameter.
 tasks.withType<JavaCompile>().configureEach {
     options.compilerArgs.add("-parameters")
+}
+
+mavenPublishing {
+    publishToMavenCentral(automaticRelease = true)
+    signAllPublications()
+
+    coordinates("dev.isira", "jev-sdk", "$version")
+    pom {
+        name.set("jev-sdk")
+        description.set("A small Java client for the Jev API (`https://api.typesafe.ai/v1/systemone`)")
+        url.set("https://github.com/SL-Pirate/jev-sdk-java")
+        licenses {
+            license {
+                name.set("MIT License")
+                url.set("https://opensource.org/license/mit")
+            }
+        }
+        developers {
+            developer {
+                id.set("SL-Pirate")
+                name.set("Isira Herath")
+                url.set("https://github.com/SL-Pirate")
+            }
+        }
+        scm {
+            url.set("https://github.com/SL-Pirate/jev-sdk-java")
+            connection.set("scm:git:git://github.com/SL-Pirate/jev-sdk-java.git")
+            developerConnection.set("scm:git:ssh://git@github.com/SL-Pirate/jev-sdk-java.git")
+        }
+    }
 }
 
 tasks.test {
