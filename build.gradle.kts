@@ -79,3 +79,32 @@ tasks.test {
         exceptionFormat = org.gradle.api.tasks.testing.logging.TestExceptionFormat.FULL
     }
 }
+
+// README.md quotes the dependency coordinates with a concrete version. This rewrites those
+// snippets from `version` above, so run `./gradlew syncReadmeVersion` after bumping it.
+tasks.register("syncReadmeVersion") {
+    group = "documentation"
+    description = "Updates the version in README.md's dependency snippets to match the project version."
+
+    val readme = layout.projectDirectory.file("README.md")
+    val coordinates = "${project.group}:${project.name}"
+    val artifactId = project.name
+    val newVersion = project.version.toString()
+
+    doLast {
+        val file = readme.asFile
+        val before = file.readText()
+        val after = before
+            .replace(Regex("""${Regex.escape(coordinates)}:[^"'`\s<]+"""), "$coordinates:$newVersion")
+            .replace(
+                Regex("""(<artifactId>${Regex.escape(artifactId)}</artifactId>\s*<version>)[^<]+(</version>)"""),
+                "$1$newVersion$2"
+            )
+        if (after != before) {
+            file.writeText(after)
+            println("README.md now references $coordinates:$newVersion")
+        } else {
+            println("README.md already references $coordinates:$newVersion")
+        }
+    }
+}

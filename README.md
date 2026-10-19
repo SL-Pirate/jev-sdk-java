@@ -1,5 +1,7 @@
 # jev-sdk
 
+[![Maven Central](https://img.shields.io/maven-central/v/dev.isira/jev-sdk)](https://central.sonatype.com/artifact/dev.isira/jev-sdk)
+
 A small Java client for the Jev API (`https://api.typesafe.ai/v1/systemone`). You give it a
 piece of text (the *state*) and one or more questions about that text, and it returns a
 typed answer for each question along with token usage.
@@ -19,9 +21,11 @@ Three kinds of question are supported:
 
 ## Installation
 
-The artifact coordinates are `dev.isira:jev-sdk:1.0`.
+The library is published to Maven Central as `dev.isira:jev-sdk`. The badge at the top of
+this page shows the latest release. Make sure Maven Central is among your repositories;
+nearly every build already has it.
 
-From a repository that hosts it:
+Gradle, Kotlin DSL:
 
 ```kotlin
 dependencies {
@@ -29,20 +33,34 @@ dependencies {
 }
 ```
 
-From a local checkout, without publishing anything, use a Gradle composite build:
+Gradle, Groovy DSL:
+
+```groovy
+dependencies {
+    implementation 'dev.isira:jev-sdk:1.0'
+}
+```
+
+Maven:
+
+```xml
+
+<dependency>
+    <groupId>dev.isira</groupId>
+    <artifactId>jev-sdk</artifactId>
+    <version>1.0</version>
+</dependency>
+```
+
+To work against a local checkout instead, include it as a Gradle composite build and keep
+the same dependency declaration; Gradle substitutes the local build for the published one.
 
 ```kotlin
 // settings.gradle.kts
 includeBuild("../jev-sdk")
-
-// build.gradle.kts
-dependencies {
-    implementation("dev.isira:jev-sdk:1.0")
-}
 ```
 
-All classes live under the package
-`dev.isira.jev`.
+All classes live under the package `dev.isira.jev`.
 
 ## Authentication
 
