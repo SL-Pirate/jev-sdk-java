@@ -26,3 +26,25 @@ dependencies {
 tasks.withType<JavaCompile>().configureEach {
     options.compilerArgs.add("-parameters")
 }
+
+tasks.test {
+    useJUnitPlatform()
+
+    // Expose variables from a local .env (e.g. JEV_KEY) to the test JVM so the live API
+    // tests can run. Tests gated on JEV_KEY are skipped when the file or variable is absent.
+    val dotenv = layout.projectDirectory.file(".env").asFile
+    if (dotenv.isFile) {
+        dotenv.readLines()
+            .map { it.trim().removePrefix("export ") }
+            .filter { it.isNotEmpty() && !it.startsWith("#") && it.contains('=') }
+            .forEach { line ->
+                val (key, value) = line.split('=', limit = 2)
+                environment(key.trim(), value.trim().removeSurrounding("\"").removeSurrounding("'"))
+            }
+    }
+
+    testLogging {
+        events("passed", "skipped", "failed")
+        exceptionFormat = org.gradle.api.tasks.testing.logging.TestExceptionFormat.FULL
+    }
+}
