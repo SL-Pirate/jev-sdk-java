@@ -19,13 +19,13 @@ Three kinds of question are supported:
 
 ## Installation
 
-The artifact coordinates are `dev.isira:jev-sdk:1.0-SNAPSHOT`.
+The artifact coordinates are `dev.isira:jev-sdk:1.0`.
 
 From a repository that hosts it:
 
 ```kotlin
 dependencies {
-    implementation("dev.isira:jev-sdk:1.0-SNAPSHOT")
+    implementation("dev.isira:jev-sdk:1.0")
 }
 ```
 
@@ -37,7 +37,7 @@ includeBuild("../jev-sdk")
 
 // build.gradle.kts
 dependencies {
-    implementation("dev.isira:jev-sdk:1.0-SNAPSHOT")
+    implementation("dev.isira:jev-sdk:1.0")
 }
 ```
 
