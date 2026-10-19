@@ -21,6 +21,8 @@ dependencies {
     testRuntimeOnly("org.junit.platform:junit-platform-launcher")
 }
 
-tasks.test {
-    useJUnitPlatform()
+// Keep constructor parameter names in the bytecode so Jackson can map JSON properties onto
+// constructor arguments without @JsonProperty on every parameter.
+tasks.withType<JavaCompile>().configureEach {
+    options.compilerArgs.add("-parameters")
 }

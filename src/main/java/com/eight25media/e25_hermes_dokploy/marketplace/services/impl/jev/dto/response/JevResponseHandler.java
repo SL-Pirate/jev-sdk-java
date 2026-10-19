@@ -13,7 +13,7 @@ public class JevResponseHandler implements BodyHandler<JevResponse> {
     public HttpResponse.BodySubscriber<JevResponse> apply(ResponseInfo responseInfo) {
         return HttpResponse.BodySubscribers.mapping(
                 HttpResponse.BodySubscribers.ofByteArray(),
-                body -> mapper.convertValue(body, JevResponse.class)
+                body -> mapper.readValue(body, JevResponse.class)
         );
     }
 }
