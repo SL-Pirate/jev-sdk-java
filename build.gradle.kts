@@ -4,7 +4,7 @@ plugins {
 }
 
 group = "dev.isira"
-version = "1.0"
+version = "1.0.1"
 
 repositories {
     mavenCentral()
@@ -14,7 +14,7 @@ val lombokVersion = "1.18.48"
 
 dependencies {
     implementation("tools.jackson.core:jackson-databind:3.2.3")
-    implementation("org.projectlombok:lombok:${lombokVersion}")
+    compileOnly("org.projectlombok:lombok:${lombokVersion}")
     annotationProcessor("org.projectlombok:lombok:${lombokVersion}")
     implementation("xyz.elemental:elemental-media-type-api:7.7.0")
     testImplementation(platform("org.junit:junit-bom:6.0.0"))
