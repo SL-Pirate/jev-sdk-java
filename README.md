@@ -42,7 +42,7 @@ dependencies {
 ```
 
 All classes live under the package
-`com.eight25media.e25_hermes_dokploy.marketplace.services.impl.jev`.
+`dev.isira.jev`.
 
 ## Authentication
 
@@ -50,7 +50,7 @@ Pass your API key to the client. The SDK never reads environment variables or fi
 itself, so load the key however your application prefers and keep it out of source control.
 
 ```java
-import com.eight25media.e25_hermes_dokploy.marketplace.services.impl.jev.JevClient;
+import dev.isira.jev.JevClient;
 
 public class ClientSetup {
     // One client is enough for the whole application; it is safe to share between threads.
@@ -64,11 +64,11 @@ The single-question request gives you a typed answer directly. The type paramete
 answer class that matches your question type.
 
 ```java
-import com.eight25media.e25_hermes_dokploy.marketplace.services.impl.jev.JevClient;
-import com.eight25media.e25_hermes_dokploy.marketplace.services.impl.jev.dto.request.JevSingleQuestionRequest;
-import com.eight25media.e25_hermes_dokploy.marketplace.services.impl.jev.dto.request.question.JevChoiceQuestion;
-import com.eight25media.e25_hermes_dokploy.marketplace.services.impl.jev.dto.response.JevSingleAnswerResponse;
-import com.eight25media.e25_hermes_dokploy.marketplace.services.impl.jev.dto.response.answer.JevChoiceAnswer;
+import dev.isira.jev.JevClient;
+import dev.isira.jev.dto.request.JevSingleQuestionRequest;
+import dev.isira.jev.dto.request.question.JevChoiceQuestion;
+import dev.isira.jev.dto.response.JevSingleAnswerResponse;
+import dev.isira.jev.dto.response.answer.JevChoiceAnswer;
 
 import java.io.IOException;
 import java.util.Map;
@@ -105,15 +105,15 @@ its own answer; it knows which key it was sent under, so you get the right answe
 without casting.
 
 ```java
-import com.eight25media.e25_hermes_dokploy.marketplace.services.impl.jev.JevClient;
-import com.eight25media.e25_hermes_dokploy.marketplace.services.impl.jev.dto.request.JevRequest;
-import com.eight25media.e25_hermes_dokploy.marketplace.services.impl.jev.dto.request.question.JevChoiceQuestion;
-import com.eight25media.e25_hermes_dokploy.marketplace.services.impl.jev.dto.request.question.JevNoulQuestion;
-import com.eight25media.e25_hermes_dokploy.marketplace.services.impl.jev.dto.request.question.JevScoreQuestion;
-import com.eight25media.e25_hermes_dokploy.marketplace.services.impl.jev.dto.response.JevResponse;
-import com.eight25media.e25_hermes_dokploy.marketplace.services.impl.jev.dto.response.answer.JevChoiceAnswer;
-import com.eight25media.e25_hermes_dokploy.marketplace.services.impl.jev.dto.response.answer.JevNoulAnswer;
-import com.eight25media.e25_hermes_dokploy.marketplace.services.impl.jev.dto.response.answer.JevScoreAnswer;
+import dev.isira.jev.JevClient;
+import dev.isira.jev.dto.request.JevRequest;
+import dev.isira.jev.dto.request.question.JevChoiceQuestion;
+import dev.isira.jev.dto.request.question.JevNoulQuestion;
+import dev.isira.jev.dto.request.question.JevScoreQuestion;
+import dev.isira.jev.dto.response.JevResponse;
+import dev.isira.jev.dto.response.answer.JevChoiceAnswer;
+import dev.isira.jev.dto.response.answer.JevNoulAnswer;
+import dev.isira.jev.dto.response.answer.JevScoreAnswer;
 
 import java.io.IOException;
 import java.util.List;
@@ -163,9 +163,9 @@ The examples below assume the question was sent in a request as shown above.
 `choice` is one of those identifiers.
 
 ```java
-import com.eight25media.e25_hermes_dokploy.marketplace.services.impl.jev.dto.request.question.JevChoiceQuestion;
-import com.eight25media.e25_hermes_dokploy.marketplace.services.impl.jev.dto.response.JevResponse;
-import com.eight25media.e25_hermes_dokploy.marketplace.services.impl.jev.dto.response.answer.JevChoiceAnswer;
+import dev.isira.jev.dto.request.question.JevChoiceQuestion;
+import dev.isira.jev.dto.response.JevResponse;
+import dev.isira.jev.dto.response.answer.JevChoiceAnswer;
 
 import java.util.Map;
 
@@ -190,9 +190,9 @@ each position on the scale (a string index starting at `"0"`) to the criterion t
 `probabilities` has one entry per position using the same indexes.
 
 ```java
-import com.eight25media.e25_hermes_dokploy.marketplace.services.impl.jev.dto.request.question.JevScoreQuestion;
-import com.eight25media.e25_hermes_dokploy.marketplace.services.impl.jev.dto.response.JevResponse;
-import com.eight25media.e25_hermes_dokploy.marketplace.services.impl.jev.dto.response.answer.JevScoreAnswer;
+import dev.isira.jev.dto.request.question.JevScoreQuestion;
+import dev.isira.jev.dto.response.JevResponse;
+import dev.isira.jev.dto.response.answer.JevScoreAnswer;
 
 import java.util.List;
 
@@ -217,9 +217,9 @@ public class ScoreExample {
 answer is a single `noul` value from 0 to 1.
 
 ```java
-import com.eight25media.e25_hermes_dokploy.marketplace.services.impl.jev.dto.request.question.JevNoulQuestion;
-import com.eight25media.e25_hermes_dokploy.marketplace.services.impl.jev.dto.response.JevResponse;
-import com.eight25media.e25_hermes_dokploy.marketplace.services.impl.jev.dto.response.answer.JevNoulAnswer;
+import dev.isira.jev.dto.request.question.JevNoulQuestion;
+import dev.isira.jev.dto.response.JevResponse;
+import dev.isira.jev.dto.response.answer.JevNoulAnswer;
 
 import java.util.Map;
 
@@ -246,8 +246,8 @@ Requests default to `jev-latest`. To pin a version, set it on the builder. The r
 `model()` tells you which concrete version answered.
 
 ```java
-import com.eight25media.e25_hermes_dokploy.marketplace.services.impl.jev.dto.request.JevRequest;
-import com.eight25media.e25_hermes_dokploy.marketplace.services.impl.jev.dto.request.question.JevQuestion;
+import dev.isira.jev.dto.request.JevRequest;
+import dev.isira.jev.dto.request.question.JevQuestion;
 
 import java.util.Map;
 
