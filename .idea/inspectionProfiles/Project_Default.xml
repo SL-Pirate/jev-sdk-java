@@ -8,6 +8,7 @@
       <option name="customHeaders">
         <set>
           <option value="Bearer " />
+          <option value="application/json" />
         </set>
       </option>
     </inspection_tool>

@@ -9,7 +9,6 @@ import dev.isira.jev.dto.response.answer.JevAnswer;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import tools.jackson.databind.ObjectMapper;
-import xyz.elemental.mediatype.MediaType;
 
 import java.io.IOException;
 import java.net.URI;
@@ -26,7 +25,7 @@ public class JevClient {
 
     public JevResponse sendRequest(JevRequest request) throws IOException, InterruptedException {
         final var req = HttpRequest.newBuilder(URI.create("https://api.typesafe.ai/v1/systemone"))
-                .headers("Authorization", "Bearer " + apiKey, "Content-Type", MediaType.APPLICATION_JSON)
+                .headers("Authorization", "Bearer " + apiKey, "Content-Type", "application/json")
                 .POST((HttpRequest.BodyPublishers.ofByteArray(MAPPER.writeValueAsBytes(request))))
                 .build();
         final HttpResponse<JevResponse> res = restClient.send(req, responseHandler);
