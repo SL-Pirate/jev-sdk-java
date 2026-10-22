@@ -29,7 +29,7 @@ Gradle, Kotlin DSL:
 
 ```kotlin
 dependencies {
-    implementation("dev.isira:jev-sdk:1.0.2")
+    implementation("dev.isira:jev-sdk:1.1.0")
 }
 ```
 
@@ -37,7 +37,7 @@ Gradle, Groovy DSL:
 
 ```groovy
 dependencies {
-    implementation 'dev.isira:jev-sdk:1.0.2'
+    implementation 'dev.isira:jev-sdk:1.1.0'
 }
 ```
 
@@ -48,7 +48,7 @@ Maven:
 <dependency>
     <groupId>dev.isira</groupId>
     <artifactId>jev-sdk</artifactId>
-    <version>1.0.2</version>
+    <version>1.1.0</version>
 </dependency>
 ```
 

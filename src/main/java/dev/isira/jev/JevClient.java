@@ -25,7 +25,11 @@ public class JevClient {
 
     public JevResponse sendRequest(JevRequest request) throws IOException, InterruptedException {
         final var req = HttpRequest.newBuilder(URI.create("https://api.typesafe.ai/v1/systemone"))
-                .headers("Authorization", "Bearer " + apiKey, "Content-Type", "application/json")
+                .headers(
+                        "Authorization", "Bearer " + apiKey,
+                        "Content-Type", "application/json",
+                        "TypeSafe-Danger-Zone-Images", Boolean.toString(request.hasAssets())
+                )
                 .POST((HttpRequest.BodyPublishers.ofByteArray(MAPPER.writeValueAsBytes(request))))
                 .build();
         final HttpResponse<JevResponse> res = restClient.send(req, responseHandler);

@@ -10,19 +10,19 @@ class JevTypeTest {
     private final ObjectMapper mapper = new ObjectMapper();
 
     @ParameterizedTest
-    @CsvSource({"NOUL,noul", "CHOICE,choice", "SCORE,score"})
+    @CsvSource({"NOUL,noul", "CHOICE,choice", "SCORE,score", "BOX,box"})
     void serializesAsLowercaseWireValue(JevType type, String wire) {
         assertEquals("\"" + wire + "\"", mapper.writeValueAsString(type));
     }
 
     @ParameterizedTest
-    @CsvSource({"NOUL,noul", "CHOICE,choice", "SCORE,score"})
+    @CsvSource({"NOUL,noul", "CHOICE,choice", "SCORE,score", "BOX,box"})
     void deserializesFromWireValue(JevType type, String wire) {
         assertEquals(type, mapper.readValue("\"" + wire + "\"", JevType.class));
     }
 
     @ParameterizedTest
-    @CsvSource({"NOUL,noul", "CHOICE,choice", "SCORE,score"})
+    @CsvSource({"NOUL,noul", "CHOICE,choice", "SCORE,score", "BOX,box"})
     void exposesWireValueAsField(JevType type, String wire) {
         assertEquals(wire, type.value);
     }

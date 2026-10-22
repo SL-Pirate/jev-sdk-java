@@ -5,7 +5,8 @@ import com.fasterxml.jackson.annotation.JsonValue;
 public enum JevType {
     NOUL("noul"),
     CHOICE("choice"),
-    SCORE("score");
+    SCORE("score"),
+    BOX("box");
 
     @JsonValue
     public final String value;

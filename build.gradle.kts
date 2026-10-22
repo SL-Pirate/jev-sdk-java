@@ -4,7 +4,7 @@ plugins {
 }
 
 group = "dev.isira"
-version = "1.0.2"
+version = "1.1.0"
 
 repositories {
     mavenCentral()
@@ -34,7 +34,7 @@ mavenPublishing {
     coordinates("dev.isira", "jev-sdk", "$version")
     pom {
         name.set("jev-sdk")
-        description.set("A small Java client for the Jev API (`https://api.typesafe.ai/v1/systemone`)")
+        description.set("A small Java client for the Jev API with image and box support (`https://api.typesafe.ai/v1/systemone`)")
         url.set("https://github.com/SL-Pirate/jev-sdk-java")
         licenses {
             license {
