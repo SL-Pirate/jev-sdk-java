@@ -9,6 +9,9 @@
         <set>
           <option value="Bearer " />
           <option value="application/json" />
+          <option value="TypeSafe-Danger-Zone-Images" />
+          <option value="true" />
+          <option value="false" />
         </set>
       </option>
     </inspection_tool>

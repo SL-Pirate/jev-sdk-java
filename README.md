@@ -3,16 +3,17 @@
 [![Maven Central](https://img.shields.io/maven-central/v/dev.isira/jev-sdk)](https://central.sonatype.com/artifact/dev.isira/jev-sdk)
 
 A small Java client for the Jev API (`https://api.typesafe.ai/v1/systemone`). You give it a
-piece of text (the *state*) and one or more questions about that text, and it returns a
+state containing text or image references and one or more questions about it, and it returns a
 typed answer for each question along with token usage.
 
-Three kinds of question are supported:
+Four kinds of question are supported:
 
 | Type   | Ask it to...                                      | You get back                                                                   |
 |--------|---------------------------------------------------|--------------------------------------------------------------------------------|
 | Choice | pick one of several named options                 | the chosen option, confidence, and a probability per option                    |
 | Score  | rate the text against an ordered list of criteria | a score, confidence, a legend of the criteria, and a probability per criterion |
 | Noul   | give a single judgement between 0 and 1           | one number from 0 to 1                                                         |
+| Box    | locate one target in an image                     | normalized box edges and confidence                                            |
 
 ## Requirements
 
@@ -256,7 +257,68 @@ public class NoulExample {
 ```
 
 Every answer also exposes `type`, one of `JevType.CHOICE`, `JevType.SCORE` or
-`JevType.NOUL`.
+`JevType.NOUL` or `JevType.BOX`.
+
+## Images and Box questions
+
+Images and Box are experimental. See the upstream [image guide](https://docs.typesafe.ai/images)
+and [Box reference](https://docs.typesafe.ai/primitives/box). Images work with Jev 1.13 and
+1.14; Box requires `jev-preview` or `jev-1.14.0`.
+
+This SDK sends images as base64 in JSON. Create a `JevAsset` with a unique reference,
+`"image"`, a lowercase format (`"png"`, `"jpg"`, or `"jpeg"`), and either an already encoded
+string or `List.of(imageBytes)`. The byte-list constructor encodes only the first entry;
+create a separate asset for each image. Base64 strings must use standard padded encoding
+without whitespace or a `data:` prefix. Multipart uploads are not implemented.
+
+```java
+import dev.isira.jev.JevClient;
+import dev.isira.jev.dto.request.JevAsset;
+import dev.isira.jev.dto.request.JevSingleQuestionRequest;
+import dev.isira.jev.dto.request.question.JevBoxQuestion;
+import dev.isira.jev.dto.response.answer.JevBoxAnswer;
+
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.util.List;
+import java.util.UUID;
+
+public class LocateMug {
+    static void main(String[] args) throws Exception {
+        var client = new JevClient(System.getenv("JEV_KEY"));
+        String reference = UUID.randomUUID().toString();
+        var image = new JevAsset(reference, "image", "jpg",
+                List.of(Files.readAllBytes(Path.of("kitchen.jpg"))));
+
+        var request = JevSingleQuestionRequest.<JevBoxAnswer>singleQuestionBuilder()
+                .model("jev-1.14.0")
+                .state("Kitchen photo: " + reference)
+                .assets(List.of(image))
+                .question(new JevBoxQuestion("The coffee mug in the kitchen photo"))
+                .build();
+
+        JevBoxAnswer answer = client.sendSingleQuestionRequest(request).answer();
+        System.out.println(answer.confidence);
+        System.out.println(answer.box.left());
+        System.out.println(answer.box.top());
+        System.out.println(answer.box.right());
+        System.out.println(answer.box.bottom());
+    }
+}
+```
+
+Both request builders accept `.assets(List<JevAsset>)`. The SDK keys the top-level
+`assets` map by each asset's `name` and automatically sends
+`TypeSafe-Danger-Zone-Images: true` when assets are present. Every asset must be referenced
+in the state, question instructions, or criteria. References match inside longer strings,
+so use a fresh UUID to avoid accidental matches. Choice, Score, and Noul can also use
+image references in their instructions and criteria strings.
+
+`JevBoxQuestion` takes instructions and no criteria. Its answer exposes `box` and
+`confidence`. Edges range from 0 to 1, measured from the top-left: multiply `left` and
+`right` by image width, and `top` and `bottom` by image height to get pixel coordinates.
+Each question returns one box, even if the target is absent. Add a Noul question about
+whether the target is present when that distinction matters.
 
 ## Choosing a model
 
